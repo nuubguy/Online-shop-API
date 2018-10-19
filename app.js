@@ -1,15 +1,36 @@
 const express = require('express');
 const logger= require('morgan');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+
 const apps = express();
+const users = require('./routes/users');
+
+mongoose.connect('mongodb://harukanoo:harukanoo2@rest-shop-shard-00-00-jxtdl.mongodb.net:27017,rest-shop-shard-00-01-jxtdl.mongodb.net:27017,rest-shop-shard-00-02-jxtdl.mongodb.net:27017/test?ssl=true&replicaSet=rest-shop-shard-0&authSource=admin&retryWrites=true',{
+    useMongoClient:true
+})
+
+apps.use(bodyParser.urlencoded({extended:false}));
+apps.use(bodyParser.json());
+
+apps.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    );
+    if (req.method === 'OPTIONS') {
+        res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+        return res.status(200).json({});
+    }
+    next();
+  })
+
 
 
         apps.use(logger('dev'));
 
-        apps.get('/',(req,res,next)=>{
-            res.status(200).json({
-                message:"you request a page"
-            })
-        });
+        apps.use('/user',users);
 
         apps.use((req,res,next)=>{
             const err = new Error('Not Found');

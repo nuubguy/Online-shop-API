@@ -17,37 +17,12 @@ module.exports = {
        }
    },
    addWallet: async (req,res,next)=>{
-        const {userId} = req.params;
-        const newWallet =new Wallet({
-            _id:new mongoose.Types.ObjectId(),
-            name:body.parse.name,
-            transactions:[]
-        });
-        const user = await User.findById(userId)
-        if(user===null){
-           return res.status(400).json({
-                message:"invalid user"
-            });
-        };
-        
-        await newWallet.save((err,wallet)=>{
-            res.status(200).json(wallet)
-        });
-        
-        // const updatedUser =await User.findByIdAndUpdate(userId,user);
-        // res.status(200).json(updatedUser);
-        
+    //    const {userId}= req.params;
+    //    const newCar = new Car(req.body);
+       user = await User.findById(req.params.userId);
 
-        
-
-
-
-
-        // user.wallets.push(newWallet);
-        // console.log(user);
-        // const updateUser = await User.findByIdAndUpdate(user);
-        
-        // res.status(200).json(updateUser);
+       res.status(200).json(user);
+       
    },
    deleteWallet: async (req,res,next)=>{
        const{walletId} = req.params;

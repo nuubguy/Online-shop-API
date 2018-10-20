@@ -6,8 +6,12 @@ router.route('/')
 .get(userController.fetchAll)
 .post(userController.addUser);
 
-router.route('/name')
-.get(userController.fetchByName);
+router.route('/:name')
+.get(userController.fetchByName),
+
+router.route('/:userId')
+.patch(userController.updateUser),
+
 
 
 

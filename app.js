@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 
 const apps = express();
 const users = require('./routes/users');
+const wallets = require('./routes/wallet');
 
 mongoose.connect('mongodb://harukanoo:harukanoo2@rest-shop-shard-00-00-jxtdl.mongodb.net:27017,rest-shop-shard-00-01-jxtdl.mongodb.net:27017,rest-shop-shard-00-02-jxtdl.mongodb.net:27017/test?ssl=true&replicaSet=rest-shop-shard-0&authSource=admin&retryWrites=true',{
     useMongoClient:true
@@ -26,11 +27,10 @@ apps.use((req, res, next) => {
     next();
   })
 
-
-
         apps.use(logger('dev'));
 
         apps.use('/user',users);
+        apps.use('/wallet',wallets);
 
         apps.use((req,res,next)=>{
             const err = new Error('Not Found');

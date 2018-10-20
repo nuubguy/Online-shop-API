@@ -19,22 +19,20 @@ module.exports={
             res.status(200).json(newUser);     
         });
     },
-    fetchById: async (req,res,next)=>{
-        const userId = req.params.userId;
+    fetchByName: async (req,res,next)=>{
+        const userId = req.params.name;
         try{
-            let user = await User.findById(userId);
+            let user = await User.find({ name: userId });
             res.status(200).json(user)
         }catch(err){
             next(err);
         }
     },
-    fetchByName: async (req,res,next)=>{
-        const userId = req.params.name;
-        try{
-            let user = await User.find({ _id: userId });
-            res.status(200).json(user)
-        }catch(err){
-            next(err);
-        }
+    updateUser: async(req,res,next)=>{
+        const {userId} = req.params;
+        const newUser = req.body;
+        const result = await User.findByIdAndUpdate(userId, newUser);
+            
+        res.status(200).json(result);
     }
 }

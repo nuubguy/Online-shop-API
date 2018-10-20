@@ -16,12 +16,20 @@ module.exports = {
            next(err);
        }
    },
+   
    addWallet: async (req,res,next)=>{
-    //    const {userId}= req.params;
-    //    const newCar = new Car(req.body);
+       const newWallet = new Wallet(req.body);
        user = await User.findById(req.params.userId);
 
-       res.status(200).json(user);
+       user.wallets.push(newWallet);
+       newWallet.user = user;
+
+       newWallet.save();
+       user.save((err,updatedUser)=>{
+        res.status(200).json(updatedUser);
+       });
+       
+       
        
    },
    deleteWallet: async (req,res,next)=>{

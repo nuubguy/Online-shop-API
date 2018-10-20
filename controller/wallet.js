@@ -1,6 +1,5 @@
 const Wallet = require('../model/wallet');
 const User = require('../model/users');
-const mongoose = require('mongoose');
 
 module.exports = {
    fetchAll: async (req,res,next)=>{

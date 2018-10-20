@@ -3,7 +3,7 @@ const User = require('../model/users');
 module.exports={
     fetchAll : async (req,res,next)=>{
     try{
-    let users = await User.find().select('_id name email');
+    let users = await User.find().select('_id name email wallets');
     if(users.length==0){
        return res.status(404).json({message:"there is no data"});     
     }
@@ -32,7 +32,7 @@ module.exports={
         const {userId} = req.params;
         const newUser = req.body;
         const result = await User.findByIdAndUpdate(userId, newUser);
-            
+
         res.status(200).json(result);
     }
 }

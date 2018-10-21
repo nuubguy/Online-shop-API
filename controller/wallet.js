@@ -20,6 +20,12 @@ module.exports = {
        const newWallet = new Wallet(req.body);
        user = await User.findById(req.params.userId);
 
+       if(user ===null){
+           return res.status(404).json({
+               message:"invalid user-id"
+           })
+       }
+
        user.wallets.push(newWallet);
        newWallet.user = user;
 

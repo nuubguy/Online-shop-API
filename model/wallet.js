@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const walletSchema = new Schema({
     name: {type:String, required: true},
+    balance:{type:Number,default:0,required:true},
     user:{type:Schema.Types.ObjectId,
           ref:'User'},
     transactions:[{

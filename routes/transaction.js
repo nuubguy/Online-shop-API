@@ -8,5 +8,8 @@ router.route('/')
 router.route('/:walletId')
 .post(transactionController.addTransaction);
 
+router.route('/user/:userId')
+.get(transactionController.fetchByUserId);
+
 
 module.exports = router;

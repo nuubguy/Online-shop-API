@@ -50,6 +50,4 @@ apps.use((req, res, next) => {
                 }
             })
         });
-
-
 module.exports =apps;

@@ -12,21 +12,23 @@ module.exports ={
         }
     },
     fetchByUserId:async(req,res,next)=>{
-        const {userId} = req.params;
         try{
-            user = await User.findById(userId);
+            user = await User.findById(req.params.userId);
 
             if(user === null){
                 res.status(404).json({message:"user not found"});
             }
             const wallets = user.wallets;
+            console.log(wallets);
             
-            let transactions = wallets.map(async walletId=>{
-                transaction =await Transaction.find({wallet:walletId});
-                return transaction;
-            });
+            let currentTransaction=[];
 
-            res.status(200).json(transactions);
+            for(var x=0;x<wallets.length;x++){
+                transaction =await Transaction.find({wallet:wallets[x]});
+                currentTransaction = currentTransaction.concat(transaction);
+            }
+
+            res.status(200).json(currentTransaction);
 
         }catch(err){
             next(err);

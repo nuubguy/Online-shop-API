@@ -40,8 +40,9 @@ module.exports = {
        const{walletId,walletIdReceiver} =req.params;
        const balance = req.body.amount;
        
-       let walletSender = await Wallet.findById(walletId);
-       let walletReceiver = await Wallet.findById(walletIdReceiver);
+       let walletSender = await Wallet.findById(req.params.walletId);
+       let walletReceiver = await Wallet.findById(req.params.walletIdReceiver);
+       
 
        if(walletSender.balance-balance<0){
            return res.status(400).json({message:"inssuficient balance"})
@@ -51,14 +52,14 @@ module.exports = {
        walletReceiver.balance+=balance;
 
        const senderTransaction = new Transaction({
-           Description:"transfer"+balance+"to "+walletReceiver.user,
+           Description:"transfer "+balance+" to "+walletReceiver.user,
            Amount:balance,
            type:"Debit",
            wallet:walletId
        });
 
        const receiverTransaction = new Transaction({
-        Description:"receive "+balance+"from "+walletReceiver.user,
+        Description:"receive "+balance+" from "+walletReceiver.user,
         Amount:balance,
         type:"Credit",
         wallet:walletIdReceiver
@@ -70,8 +71,7 @@ module.exports = {
     await walletReceiver.save();
     await senderTransaction.save();
     await receiverTransaction.save();
-    return res.status(200).json(walletSender,walletReceiver);
-
+    res.status(200).json({message:"transfer succeed"});
        
     },
    deleteWallet: async (req,res,next)=>{

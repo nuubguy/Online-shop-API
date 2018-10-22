@@ -11,4 +11,8 @@ router.route('/:userId')
 router.route('/:walletId')
 .delete(walletController.deleteWallet);
 
+router.route('/:walletId/:walletIdReceiver')
+.post(walletController.transfer);
+
+
 module.exports = router;
